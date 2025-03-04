@@ -1,0 +1,247 @@
+/* #Media Queries Responsive
+================================================== */
+
+@media (min-width: 1201px) and (max-width: 1500px) {
+   /* .slide-text { left: 1.5%; top: 62%; } */
+}
+
+
+/* Desktop large
+------------------------- */
+@media (min-width: 1200px) {
+	
+	.menu-section { display: none; }
+}
+
+/* Desktop
+------------------------- */
+@media (min-width: 980px) and (max-width: 1199px) {
+	
+	.menu-section { display: none; }
+	#inner-page-nav { padding-left: 0px; }
+	#inner-page-nav a { font-size: 13px; }
+	#inner-page-nav ul.left { padding-left: 0px; padding-top: 20px;}
+	#inner-page-nav ul.left li { text-align: left; padding: 0px 0px 0px 0px;/*border-right: 1px solid #131313;*/ padding-right: 3px; }
+    .facility .text p { min-height: 150px; }
+    #inner-page-nav ul.left li:last-child { border-right: 0px solid; }
+    #inner-page-nav ul.right li:last-child { border-right: 0px solid; }
+	.google-map-section .text-holder p.follow, ul { padding-right: 0px; padding-top: 0px; }
+	.about-us img { width: 100%; margin: 60px 0px;}
+	.facility img {  width: 100%; }
+	.about-us a { margin-bottom: 20px; }
+	.about-us h2 { font-size: 55px; }
+	.about-us h3 { font-size: 40px; }
+	.about-us a { display: none; }
+
+	#inner-page-nav ul.right li {  text-align: left; padding:0px 0px 0px 0px;/*border-right: 1px solid #131313;*/ padding-right: 3px;}
+    #inner-page-nav ul.right { padding-top: 20px; float: right; }
+    #top-head ul.left li { font-size: 12px; }
+    #top-head ul li i { font-size: 14px; }
+    .slide-text { left: 0%; top: 12%; }
+    .booking-holder ul li { width: 24.85%; }
+    .booking-holder ul li:after { padding: 0px 75px; }
+    #main-body .booking-holder .dropd { margin-left: 125px; }
+    #onclick-menu { margin-left: 90px; }
+    .google-map-section .text-holder { padding-top: 50px; width: 100%; padding: 10px 30px 0px 30px; }
+	.google-map-section .text-holder h3 { width: 100%; }
+	.footer { padding: 20px 0px 0px 10px; }
+	.footer .copyright { text-align: center; border-top: 0px solid; }
+
+	/*Room Details*/
+	.widget-rooms-list .rooms-item { padding-left: 0; padding-right: 0; }
+	.widget-rooms-list .rooms-item .item-photo { position: static; top: auto; left: auto; width: 100%;}
+	.widget-rooms-list .rooms-item .item-photo a { padding-top: 100%; height: auto;}
+	.widget-rooms-list .rooms-item .item-price {top: 20px;right: 20px; width: auto;height: inherit;   border-left: 0; background-color: #fff;}
+	.widget-rooms-list .rooms-item .item-price {top: 20px;right: 20px; width: auto; height: inherit;   border-left: 0; background-color: #fff;}
+	.widget-rooms-list .rooms-item .item-price .price-inner { position: static; top: inherit; padding: 40px;  -webkit-transform: none;-moz-transform: none; -ms-transform: none; -o-transform: none;transform: none;}
+	.widget-rooms-list .rooms-item .item-desc .desc-features { width: 100%; }
+	.widget-rooms-list .rooms-item .item-desc p { width: 100%; }
+	/*Room Details Ends*/
+
+	.section-restaurant .text-holder { padding: 0px 0px; text-align: center; }
+	.awe-overlay-intro { padding: 40px 0px; }
+	.banner-inner h1 { font-size: 30px; padding: 10px 60px;}
+	#common-heading h1 { padding: 20px 0px; }
+
+
+}
+/* Tablet to desktop
+------------------------- */
+@media (min-width: 768px) and (max-width: 979px) {
+
+	.menu-section { display: none; }
+	#top-head { display: none; }
+	/* #inner-page-nav ul.right { display: none; } */
+	#inner-page-nav ul.left { display: none; }
+	.menu-toggle { top: 5px !important; }
+	.booking-holder li.check { padding: 34px 7px; }
+	/*#inner-page-nav { padding-left: 0px; }
+	#inner-page-nav a { font-size: 14px; }
+	#inner-page-nav ul.left { padding-left: 0px; padding-top: 10px;}
+	#inner-page-nav ul.left li { text-align: left; padding: 0px 0px 0px 0px;border-right: 1px solid #131313;
+    padding-right: 5px; }
+    #inner-page-nav ul.left li:last-child { border-right: 0px solid; }
+    #inner-page-nav ul.right li:last-child { border-right: 0px solid; }*/
+	.google-map-section .text-holder p.follow, ul { padding-right: 0px; padding-top: 0px; }
+	.about-us img { width: 100%; }
+	.facility img {  width: 100%; }
+	.about-us a { margin-bottom: 20px; }
+	#inner-page-nav ul.right li {  text-align: center; padding:0px 0px 0px 0px;border-right: 1px solid #131313;
+    padding-right: 5px;}
+    #inner-page-nav ul.right { padding-top: 10px; }
+    #top-head ul.left li { font-size: 12px; }
+    #top-head ul li i { font-size: 14px; }
+    .slide-text { left: 0%; top: 32%; }
+    .booking-holder ul li { width: 24.85%; }
+    .booking-holder ul li:after { padding: 0px 75px; }
+    #main-body .booking-holder .dropd { margin-left: 120px; top: -40px; }
+    #onclick-menu { margin-left: 90px; }
+    .google-map-section .text-holder { padding-top: 50px; width: 100%;padding: 10px 30px 0px 40px; }
+	.google-map-section .text-holder h3 { width: 100%; }
+	.footer { padding: 20px 0px 0px 10px; }
+	.footer .copyright { text-align: center; }
+	.facility .text p { min-height: 70px; }
+
+	/*Room Details*/
+	.widget-rooms-list .rooms-item { padding-left: 0; padding-right: 0; }
+	.widget-rooms-list .rooms-item .item-photo { position: static; top: auto; left: auto; width: 100%;}
+	.widget-rooms-list .rooms-item .item-photo a { padding-top: 100%; height: auto;}
+	.widget-rooms-list .rooms-item .item-price {top: 20px;right: 20px; width: auto;height: inherit;   border-left: 0; background-color: #fff;}
+	.widget-rooms-list .rooms-item .item-price {top: 20px;right: 20px; width: auto; height: inherit;   border-left: 0; background-color: #fff;}
+	.widget-rooms-list .rooms-item .item-price .price-inner { position: static; top: inherit; padding: 40px;  -webkit-transform: none;-moz-transform: none; -ms-transform: none; -o-transform: none;transform: none;}
+	.widget-rooms-list .rooms-item .item-desc .desc-features { width: 100%; }
+	.widget-rooms-list .rooms-item .item-desc p { width: 100%; }
+	/*Room Details Ends*/
+
+	.section-restaurant .text-holder { padding: 0px 0px; text-align: center; }
+	.awe-overlay-intro { padding: 40px 0px; }
+	.banner-inner h1 { font-size: 30px; padding: 10px 60px;}
+	#common-heading h1 { padding: 20px 0px; }
+	#contact-us .left { padding-left: 0px; }
+
+}
+
+/* All Mobile Sizes (devices and browser)
+------------------------- */
+@media only screen and (max-width: 767px) {
+
+	/*None*/
+}
+
+
+/* Mobile Landscape & Tablet Portrait
+------------------------- */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	body { overflow-x: hidden; }
+	#top-head { display: none; }
+	#inner-page-nav ul.right { display: none; }
+	#inner-page-nav ul.left { display: none; }
+	#inner-page-nav { padding-left: 0px; }
+	.booking-holder { display: none; }
+	.slide-text { left: 3%; top: 50%; padding: 10px 0px; }
+	.about-us { padding: 5px 0px 75px 0px; }
+	.about-us img { width: 100%; }
+	.about-us h2 { font-size: 45px; }
+	.about-us h3 { padding-right: 0px; font-size: 20px; text-align: center; }
+	.about-us a { margin-bottom: 30px; }
+	.facility .heading h2 {  font-size: 35px; }
+	.facility img {  width: 100%; }
+	.google-map-section .text-holder { padding-top: 50px; width: 100%; padding: 10px 30px 0px 30px; margin-bottom: 50px;}
+	.google-map-section .text-holder h3 { width: 100%; }
+	.footer { padding: 20px 0px 0px 10px; }
+	.footer .copyright { text-align: center;}
+
+	/*Room Page*/
+	.awe-overlay-intro { padding: 40px 0px; }
+	.banner-inner h1 { font-size: 30px; padding: 10px 60px;}
+	.widget-rooms-list .rooms-item { padding-left: 0%; }
+	.widget-rooms-list .rooms-item .item-desc { padding: 20px; text-align: center; }
+
+    .widget-rooms-list .rooms-item .item-desc p { font-size: 14px; line-height: 26px; width: 100%;}
+    .widget-rooms-list .rooms-item .item-desc .desc-features ul li { float: none; width: 100%;
+        text-align: left; }
+    .widget-rooms-list .rooms-item .item-price { position: static; top: auto;  right: auto; padding: 20px;
+        border-top: 1px solid #e1e1e1;  width: 100%; }
+    .widget-rooms-list .rooms-item .item-price .price-inner { padding: 0; position: static; top: inherit;
+    padding: 0px; -webkit-transform: none; -moz-transform: none; -ms-transform: none;
+    -o-transform: none;
+    transform: none;}
+    .widget-rooms-list .rooms-item .item-photo { position: static;top: auto; left: auto; width: 100%;}
+	.widget-rooms-list .rooms-item .item-photo a { padding-top: 100%; height: auto; }
+	/*Room Page Ends*/
+
+	/*Restaurant*/
+	.section-restaurant .text-holder { display: block;  padding: 0px 0px; text-align: center; }
+	#common-heading h1 { padding: 20px 0px; }
+	.gallery-section .left ul li { width: 32%; }
+	.gallery-section .right ul li { width: 32%; }
+	.vertpan.pic { height: 300px; }
+	.about-us p { width:  100%; }
+	a.with-caption.image-link.vtours { position: relative; z-index: 999; }
+
+}
+
+/* Mobile Portrait
+------------------------- */
+@media only screen and (max-width: 479px) {
+	html, body { max-width: 100%; overflow-x: hidden; }
+	.nav ul a { font-size: 25px; }
+	#top-head { display: none; }
+	#inner-page-nav .logo { width: 50%; margin: 0 auto; }
+	/* #inner-page-nav ul.right { display: none; } */
+	#inner-page-nav ul.left { display: none; }
+	#inner-page-nav { padding-left: 0px; }
+	.booking-holder { display: none; }
+	.slide-text {
+        top: 24%;
+        padding: 10px 0px;
+    }
+	.slide-text > h1 > span { font-size: 20px; }
+	.about-us p { width: 100%; }
+	.vertpan.pic { height: 250px; }
+	.bs-slider > .carousel-inner > .item > img, .bs-slider > .carousel-inner > .item > a > img { height: 200px; }
+	.widget-rooms-list .rooms-item .item-price .price-inner h3 { font-size: 25px; }
+	#contact-us .left { padding-right: 0px; }
+	img.g-thumb { width: 100%; height: 100%; }
+	.about-us { padding: 5px 0px 35px 0px; }
+	.about-us img { width: 100%; }
+	.footer .siteby { text-align: left; }
+	.footer .copyright p { text-align: left; }
+	.about-us h2 { font-size: 50px; letter-spacing: 5px; }
+	.about-us h3 { padding-right: 0px; font-size: 20px; text-align: center; line-height: 20px; padding: 20px 0px; }
+	.about-us a { margin-bottom: 30px; }
+	.facility .heading h2 {  font-size: 35px; }
+	.google-map-section .text-holder { padding-top: 50px; width: 100%; padding: 10px 30px 0px 30px; margin-bottom: 50px;}
+	.google-map-section .text-holder h3 { width: 100%; }
+	.footer { padding: 20px 0px 0px 10px; }
+	.footer .copyright { text-align: center; border-top: 0px solid; }
+	.footer ul li {  width: 120%; }
+
+	/*Room Page*/
+	.widget-rooms-list .rooms-item .item-desc .desc-features { width: 100%; }
+	.awe-overlay-intro { padding: 40px 0px; }
+	.banner-inner h1 { font-size: 25px; padding: 10px 60px;}
+	section.banner-inner.haslayout.padding-section.parallax-window.offer {  background-size: cover; }
+	.widget-rooms-list .rooms-item { padding-left: 0%; }
+	.widget-rooms-list .rooms-item .item-desc { padding: 20px; text-align: center; }
+
+    .widget-rooms-list .rooms-item .item-desc p { font-size: 14px; line-height: 26px; width: 100%;}
+    .widget-rooms-list .rooms-item .item-desc .desc-features ul li { float: none; width: 100%;
+        text-align: left; }
+    .widget-rooms-list .rooms-item .item-price { position: static; top: auto;  right: auto; padding: 20px;
+        border-top: 1px solid #e1e1e1;  width: 100%; }
+    .widget-rooms-list .rooms-item .item-price .price-inner { padding: 0; position: static; top: inherit;
+    padding: 0px; -webkit-transform: none; -moz-transform: none; -ms-transform: none;
+    -o-transform: none;
+    transform: none;}
+    .widget-rooms-list .rooms-item .item-photo { position: static;top: auto; left: auto; width: 100%;}
+	.widget-rooms-list .rooms-item .item-photo a { padding-top: 100%; height: auto; }
+	.vertpan img:hover { margin-top: -50px; }
+	/*Room Page Ends*/
+
+	/*Restaurant*/
+	.section-restaurant .text-holder { display: block;  padding: 0px 0px; text-align: center; }
+	#common-heading h1 { padding: 20px 0px; }
+	a.with-caption.image-link.vtours { position: relative; z-index: 999; }
+
+}

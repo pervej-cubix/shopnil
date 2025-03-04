@@ -1,0 +1,12 @@
+[02-Feb-2025 11:25:29 Asia/Dhaka] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/cubixsmb/shopnilshindhubd.com/config/mail.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/cubixsmb/shopnilshindhubd.com/config/mail.php on line 17
+[03-Feb-2025 10:12:33 Asia/Dhaka] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/cubixsmb/shopnilshindhubd.com/config/app.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/cubixsmb/shopnilshindhubd.com/config/app.php on line 16
+[18-Feb-2025 13:57:51 Asia/Dhaka] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/cubixsmb/shopnilshindhubd.com/config/app.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/cubixsmb/shopnilshindhubd.com/config/app.php on line 16
