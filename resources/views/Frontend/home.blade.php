@@ -133,11 +133,37 @@
 }
 
 
-
 .carousel-control-next {
-
     right: 2%;
+}
 
+.checkin_form_container {
+    display: grid;
+    gap: 6px;
+    width: 100%;
+    margin: 0 auto;
+    align-items: center;
+    padding-left: 0px;
+    grid-template-columns: repeat(2, 1fr);
+    border: rgba(0, 0, 0, 1);
+
+}
+
+.checkin_form_box {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    text-align: left;
+    font-size: 15px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+@media (min-width: 1024px) {
+    .checkin_form_container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 </style>
 
@@ -394,44 +420,33 @@ $(document).ready(function() {
 
                 <div id="bookNow">
                     <div class="container">
-
                         <form action="{{route('reservation')}}" method="get">
-                            <div class="row"
-                                style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-bottom: 16px;">
-                                <!-- Check-in -->
-                                <div class="col-md-4 col-lg-3 col-xl-6 col-6" style="margin-top: 25px;">
+                            <div class="checkin_form_container">
+                                <div class="checkin_form_box">
                                     <div class="input-group" style="display: flex; flex-direction: column;">
                                         <label for="">Check in</label>
                                         <input type="date" class="form-control" name="checkin" style="width: 100%;">
                                     </div>
                                 </div>
-
-                                <!-- Check-out -->
-                                <div class="col-md-4 col-lg-3 col-xl-6 col-6" style="margin-top: 25px;">
+                                <div class="checkin_form_box">
                                     <div class="input-group" style="display: flex; flex-direction: column;">
                                         <label for="">Check out</label>
                                         <input type="date" class="form-control" name="checkout" style="width: 100%;">
                                     </div>
                                 </div>
-
-
-                                <!-- Number of Persons -->
-                                <div class="col-md-4 col-lg-3 col-xl-6 col-6" style="margin-top: 25px;">
+                                <div class="checkin_form_box">
                                     <div class="input-group" style="display: flex; flex-direction: column;">
                                         <label for="">Number of Person</label>
                                         <input type="number" class="form-control" name="adult" style="width: 100%;">
                                     </div>
                                 </div>
-
-                                <!-- Book Now Button (Now placed side by side) -->
-                                <div class="col-md-4 col-lg-3 col-xl-6 col-6" style="margin-top: 25px;">
+                                <div class="checkin_form_box" style="margin-top: 25px">
                                     <button class="hvr-shutter-in-horizontal"
                                         style="cursor:pointer; height: 70px; width: 100%;">
                                         <h2>Book Now</h2>
                                     </button>
                                 </div>
                             </div>
-
 
                         </form>
 
