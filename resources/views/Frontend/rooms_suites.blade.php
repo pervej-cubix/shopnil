@@ -78,7 +78,7 @@
                     <div class="rooms-item">
                         <div class="item-photo hover14">
                             <a href="#" data-background="{{ asset('/storage/app/public/' . $item->image) }}"
-                                style="background-image: url('{{ asset('/storage/app/public/' . $item->image) }}');"></a>
+                                style="background-image: url('{{ asset('/storage/app/public/' . $item->image) }}')"></a>
                         </div>
                         <div class="item-desc">
                             <h2><a href="#">{{$item->title}}</a></h2>
@@ -102,19 +102,22 @@
                                 $usdt = round($item->price * $exchangeRate, 2);
                                 @endphp
 
-                                <div class="price-row">
-                                    <h3>{{ $usdt }} USD</h3>
-                                    <h3>{{ $item->price }} BDT</h3>
+                                <div class="price-row" style="text-decoration: line-through;">
+                                    <h3 style="font-size: 16px;">{{ $usdt }}<span
+                                            style="font-size: 15px; font-weight: 600;"> &nbsp;USD</span></h3>
+                                    <h3>{{ $item->price }} <span style="font-size: 15px; font-weight: 600;">BDT</span>
+                                    </h3>
                                 </div>
-
                                 <div class="discount-section">
                                     <h3>%</h3>
                                     <h5>Discount Amount</h5>
                                 </div>
 
                                 <div class="price-row">
-                                    <h3>{{ $usdt }} USD</h3>
-                                    <h3>{{ $item->price }} BDT</h3>
+                                    <h3>{{ $usdt }}<span style="font-size: 16px; font-weight: 600;"> &nbsp;USD</span>
+                                    </h3>
+                                    <h3>{{ $item->price }} <span style="font-size: 16px; font-weight: 600;">BDT</span>
+                                    </h3>
                                 </div>
 
                                 <h5 style="margin-top: 10px;">Per Night</h5>
@@ -126,42 +129,7 @@
                                 </li>
                             </div>
                         </div>
-                        <!-- <div class="item-price" style="width: 25%">
-                            <div class="price-inner"
-                                style="width: 100%; border: 1px solid rgb(156, 23, 23); padding: 10px;">
-                                @php
-                                $exchangeRate = 0.0091; // Example: 1 BDT = 0.0091 USDT (Update with real exchange rate)
-                                $usdt = round($item->price * $exchangeRate, 2);
-                                @endphp
 
-                                <div
-                                    style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px;">
-                                    <h3 style="margin: 0; font-size: 19px;">{{ $usdt }} USD</h3>
-                                    <h3 style="margin: 0; font-size: 19px;">{{ $item->price }} BDT</h3>
-                                </div>
-                                <div>
-                                    <h3 style="font-size: 14px;">%</h3>
-                                </div>
-                                <div>
-                                    <h5 style="margin-bottom: 0px" style="margin: 0; font-size: 15px;">Discount Amount
-                                    </h5>
-                                </div>
-                                <div
-                                    style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px;">
-                                    <h3 style="margin: 0; font-size: 19px;">{{ $usdt }} USD</h3>
-                                    <h3 style="margin: 0; font-size: 19px;">{{ $item->price }} BDT</h3>
-                                </div>
-
-                                <h5>Per Night</h5>
-                                <li class="check" style="list-style-type: none; margin-top:20px">
-                                    <button name="index-reservation" class="hvr-shutter-in-horizontal"
-                                        style="cursor:pointer; padding:10px">
-                                        <h2>Book Now</h2>
-                                    </button>
-                                </li>
-                            </div>
-
-                        </div> -->
                     </div><!-- .rooms-item ends -->
                 </form>
                 @endforeach
