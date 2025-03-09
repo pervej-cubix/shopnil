@@ -34,7 +34,12 @@ class FrontViewController extends Controller
     {
          $rooms = Room::get();
          $banner = Banner::first();
-        return view('Frontend.rooms_suites',["Rooms"=>$rooms, "Banner"=>$banner]);
+         $gallery = PhotoGallery::get();
+        return view('Frontend.rooms_suites',[
+            "Rooms"=>$rooms, "Banner"=>$banner,
+            "Gallery" =>$gallery, 
+            ]
+        );
     }
 
     public function meetingsEvents()
