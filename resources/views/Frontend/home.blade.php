@@ -419,7 +419,7 @@ $(document).ready(function() {
             <div class="col-md-12">
 
                 <div id="bookNow">
-                    <div class="container">
+                    <div class="container form-container">
                         <form action="{{route('reservation')}}" method="get">
                             <div class="checkin_form_container">
                                 <div class="checkin_form_box">
@@ -453,34 +453,20 @@ $(document).ready(function() {
                     </div>
 
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
-
-
-
 
 <div class="clearfix"></div>
 
-
-
-<div class="about-us" style="margin-top:150px">
-
+<div class="about-us" style="margin-top: 150px">
     <div class="container">
-
         <div class="col-sm-12 col-md-6">
-
             <h2><b>about us</b></h2>
-
             <div class="row">
 
-                <div class="col-md-5">
+                <div class="col-md-5 ">
 
                     <h3>{{$About->title}}</h3>
 
@@ -489,7 +475,6 @@ $(document).ready(function() {
                 <div class="col-md-7">
 
                     <p>{{ \Illuminate\Support\Str::limit($About->description, 600) }}</p>
-
 
 
                 </div>

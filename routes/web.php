@@ -9,6 +9,7 @@ Route::get('/rooms',[FrontViewController::class,'rooms'])->name('room');
 Route::get('/meeting-event',[FrontViewController::class,'meetingsEvents'])->name('meeting-event');
 Route::get('/restaurant',[FrontViewController::class,'restaurant'])->name('restaurant');;
 Route::get('/reservation',[FrontViewController::class,'reservation'])->name('reservation');
+Route::post('/reservation-check', [ReservationController::class, 'reservationCheck'])->name('reservationCheck');
 Route::get('/specialOffer',[FrontViewController::class,'specialOffer'])->name('specialOffer');
 Route::get('/gallery',[FrontViewController::class,'gallery'])->name('gallery');;
 Route::get('/contact',[FrontViewController::class,'contact'])->name('contact');
