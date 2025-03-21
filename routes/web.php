@@ -18,4 +18,5 @@ Route::get('/slide',[FrontViewController::class,'slide'])->name('slide');
 // Send reservation mail //
 
 Route::post('/send-reservation-mail',[ReservationController::class,'reservationMail'])->name('send-mail');
+Route::post('/reservation',[ReservationController::class,'reservationMail'])->name('send-mail');
 Route::post('/send-contact-mail',[ReservationController::class,'contactMail'])->name('sendContactMail');

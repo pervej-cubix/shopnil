@@ -22,18 +22,13 @@
 <div class="reservation_content">
    
     <form id="reservationForm"> 
-        <!-- @if(session()->has('message'))
-            <div class="alert alert-success">
-                {{ session()->get('message') }}
-            </div>
-        @endif -->
         @csrf()
         <div class="col-md-12">
             <div class="reservation-detail">
                 <h3>Personal Details</h3>
                 <div class="row">                  
                     <div class="col-sm-2 col-md-2">
-                    <label for="title">Title</label>
+                        <label for="title">Title</label>
                             <select name="title" data-input-type="select" id="fo_res_title"
                                 class="form-control formField"
                                 style="font-size: 15px; padding: auto 5px;">
@@ -49,16 +44,16 @@
                     </div>
                     <div class="col-sm-5 col-md-5">
                         <label>First Name</label> 
-                        <input class="form-control formField"  type="text" name="firstName" required="">
+                        <input class="form-control formField"  type="text" name="first_name" required="">
                     </div>
                     <div class="col-sm-5 col-md-5">
                         <label>Last Name</label> 
-                        <input class="form-control formField"  type="text" name="lastName" required="">
+                        <input class="form-control formField"  type="text" name="last_name" required="">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
-                    <label>Address</label> 
+                        <label>Address</label> 
                         <input class="form-control formField" placeholder=""  type="text" name="address" required="">
                     </div>
           
@@ -66,19 +61,19 @@
                     <label for="country">Country</label>
                         <select class="form-control formField" name="country" data-input-type="select" id="fo_res_country"
 
-                        @foreach($countries as $country)
-                                    <option value="{{ $country['id'] }}" @if($country['en_short_name']==='Bangladesh' )
-                                        selected @endif>
-                                        {{ $country['en_short_name'] }}
-                                    </option>
-                                    @endforeach
+                            @foreach($countries as $country)
+                                <option value="{{ $country['id'] }}" @if($country['en_short_name']==='Bangladesh' )
+                                    selected @endif>
+                                    {{ $country['en_short_name'] }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <label>Email Address</label> <input class="form-control formField" type="email" name="senderEmail" required="">
+                        <label>Email Address</label> <input class="form-control formField" type="email" name="email" required="">
                     </div>
                     <div class="col-sm-6">
                         <label>Phone</label>
@@ -115,7 +110,7 @@
                         </select>
                     </div>
                     <div class="col-md-6  col-sm-12">
-                        <label>Number of Room</label> <select aria-required="true" class="form-control formField" name="NumberOfRooms" required ="">
+                        <label>Number of Room</label> <select aria-required="true" class="form-control formField" name="room_no" required ="">
                             <option value="">
                                 Select Number of Room </option>
                             <option value="1">
@@ -133,7 +128,7 @@
                             <option value="5">
                                 5
                             </option>
-                            <option value="5+">
+                            <option value="6">
                                 5+
                             </option>
                         </select>
@@ -171,14 +166,14 @@
                             <option value="8">
                                 8
                             </option>
-                            <option value="8+">
+                            <option value="9">
                                 8+
                             </option>
                         </select>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label>Number of Children</label> 
-                        <select aria-required="true" class="form-control formField" name="NumberOfPerson"  required="">
+                        <select aria-required="true" class="form-control formField" name="child_no"  required="">
                             <option value="{{$Booking['adult'] ?? ''}}">
                                 {{$Booking['adult'] ?? 'Select Number of Children'}} 
                             </option>
@@ -207,7 +202,7 @@
                             <option value="8">
                                 8
                             </option>
-                            <option value="8+">
+                            <option value="9">
                                 8+
                             </option>
                         </select>
@@ -251,13 +246,15 @@ flatpickr("#checkout", {
 document.getElementById("reservationForm").addEventListener("submit", function(event) {
     event.preventDefault();
     const formData = {};
-    console.log("Hello");
     
-    // Get all form fields
     const formFields = document.querySelectorAll(".formField");
     formFields.forEach(field => {
         formData[field.name] = field.value;
     });
+    formData['adult_no'] = parseInt(formData.adult_no);
+    formData['room_no'] = parseInt(formData.room_no);
+    formData['child_no'] = parseInt(formData.child_no);
+    // parseInt(formData.child_no)
 console.log(formData,"ppppp")
 
     // const recaptchaResponse = grecaptcha.getResponse();
@@ -297,8 +294,8 @@ console.log(formData,"ppppp")
             });
         });
 
-    document.getElementById("reservationForm").reset();
-    grecaptcha.reset();
+    // document.getElementById("reservationForm").reset();
+    // grecaptcha.reset();
 })
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -317,7 +314,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Make sure all values are filled before sending the request
         if (bodyData.checkin && bodyData.checkout && bodyData.roomtype) {
-            console.log("Hello");
             fetch("{{ url('/reservation-check') }}", {
                     method: 'POST',
                     headers: {

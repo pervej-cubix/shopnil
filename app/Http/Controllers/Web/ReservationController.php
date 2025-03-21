@@ -13,64 +13,144 @@ class ReservationController extends Controller
 {
     public function reservationMail(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     // Reservation Details
-        //     'checkin'       => ['required', 'date'],
-        //     'checkout'      => ['required', 'date', 'after_or_equal:checkin'],
-        //     'roomtype'      => ['required'],
-        //     'room_no'       => ['required', 'integer', 'min:1', 'max:10'],
-        //     'adult_no'      => ['required', 'integer', 'min:1', 'max:40'],
-        //     'child_no'      => ['nullable', 'integer', 'min:0', 'max:40'],
-        
-        //     // Personal Details
-        //     'title'         => ['required'],
-        //     'first_name'    => ['required', 'string'],
-        //     'last_name'     => ['required', 'string'],
-        //     'email'         => ['required', 'email'],
-        //     'phone'         => ['required', 'string'],
-        //     'country'       => ['required'],
-        //     'address'       => ['required', 'string'],
-        
-        //     // Optional
-        //     'requirements'  => ['nullable', 'string'],
-        // ]);        
+        $apiUrl = env('API_URL');
+        $settingsUrl = "$apiUrl/settings";
 
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422); // Unprocessable Entity status code
+        $chCurl = curl_init();
+        // Set cURL options
+        curl_setopt($chCurl, CURLOPT_URL, $settingsUrl);
+        curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chCurl, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+        ]);
+    
+        $settingsResponse = curl_exec($chCurl);
+        if (curl_errno($chCurl)) {
+            echo 'cURL error: ' . curl_error($chCurl);
+            curl_close($chCurl);
+            exit;
         }
-
-        dd($data);
-        return;
-        // count days
+        
+        curl_close($chCurl);
+        $settingsData = json_decode($settingsResponse, true);
+        $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
+        
+        $key=md5($token_rules[0].date("Y-m-d")); 
+   
         $checkinDate = Carbon::parse($request->input('checkin'));
         $checkoutDate = Carbon::parse($request->input('checkout'));
+
         $dayCount = $checkinDate->diffInDays($checkoutDate);
 
-        // Retrieve validated data
-        $data = $request->all();
-        $data = array_merge($data, [
-            'day_count'         => $dayCount,
-            'reservation_mode'  => 1,
-            'currency_type'     => 1,
-            'conversion_rate'   => 1,
-            'guest_source_id'   => 1,
-            'reference_id'      => 29,
-            'reservation_status'=> 1,
-            'guest_remarks'     => $request->requirements ?? 'N/A',
-        ]);
+    //     $formData = $request->all();
 
-        $toMail = MailSetting::first()->mail_to;
+        $data = [
+            'checkin_date' => $request->checkin,
+            'checkout_date' => $request->checkout,
+            'room_type' => $request->roomtype,
+            'pax_in' => $request->adult_no,
+            'number_of_room' => $request->room_no ?? 1,
+            'child_in' => $request->child_no,
+            'country' => $request->country,
+            'title' => $request->title, -
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'guest_remarks' => $request->requirements??'N/A',
+            // static property
+            'day_count'  => $dayCount,
+            'reservation_mode' => 1,
+            'currency_type' => 1,
+            'conversion_rate' => 1,
+            'guest_source_id' => 1,
+            'reference_id' => 29,
+            'reservation_status' => 1,
+        ];
+
+        // $data = [
+        //     'checkin_date' => $request->input('checkin'),
+        //     'checkout_date' => $request->input('checkout'),
+        //     'room_type' => $request->input('roomtype'),
+        //     'pax_in' => $request->input('adult_no'),
+        //     'child_in' => $request->input('child_no'),
+        //     'country' => $request->input('country'),
+        //     'title' => $request->input('title'),
+        //     'first_name' => $request->input('first_name'),
+        //     'last_name' => $request->input('last_name'),
+        //     'email' => $request->input('email'),
+        //     'phone' => $request->input('phone'),
+        //     'address' => $request->input('address'),
+        //     'guest_remarks' => $request->input('requirements')??'N/A',
+        //     // static property
+        //     'day_count'  => $dayCount,
+        //     'reservation_mode' => 1,
+        //     'currency_type' => 1,
+        //     'conversion_rate' => 1,
+        //     'guest_source_id' => 1,
+        //     'reference_id' => 29,
+        //     'reservation_status' => 2,
+        // ];
         
+        $apiUrl = env('API_URL');
+        $server_url = "$apiUrl/store_reservation";
+        
+        $ch = curl_init();
 
+// Set cURL options
+curl_setopt($ch, CURLOPT_URL, $server_url);            
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        
+curl_setopt($ch, CURLOPT_POST, true);                  
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));  
 
-        // Send the email
-        Mail::to($toMail)
-            ->send(new ReservationMail($data));
+// Set cURL options with proper header format
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Content-Type: application/json',
+    'Authorization: ' . $key,  
+]);
 
-        return redirect()->back()->with('message','Reservation booking success');
-       
+    // Execute cURL request
+    $response = curl_exec($ch);
+
+// Check if cURL execution was successful
+if($response === false) {
+    $errorMessage = curl_error($ch);
+    curl_close($ch);  
+    return back()->with([
+        'messages' => 'cURL Error: ' . $errorMessage,
+        'status' => 'error'
+    ]);
+}
+
+curl_close($ch);
+
+// Decode the response
+$response = json_decode($response);
+
+if (json_last_error() !== JSON_ERROR_NONE) {
+    return back()->with([
+        'messages' => 'Invalid JSON response from API',
+        'status' => 'error'
+    ]);
+}
+
+// Check if the response contains the expected status
+if (isset($response->status) && $response->status == 'success') {
+    $errorMessage = $response;
+
+    return response()->json([
+        'messages' => $errorMessage->message,
+        'status' => $errorMessage->status
+    ]);
+} else {
+    $errorMessage = isset($response->fields) ? $response->fields : 'Unknown error';
+    response()->json([
+        'messages' => $errorMessage->message ?? 'Unknown error',
+        'status' => $response->status ?? 'error'
+    ]);
+    }
+           
     }
 
     public function reservationCheck(Request $request){
@@ -112,8 +192,6 @@ class ReservationController extends Controller
             'room_quantity' => 1,
             "editRoomList" => []
         ];
-
-      
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
        
@@ -161,7 +239,7 @@ class ReservationController extends Controller
         Mail::to($toMail)
         ->send(new ContactMail($data));
 
-    return redirect()->back()->with('message','Contact  success');
+        return redirect()->back()->with('message','Contact  success');
     }
     
 }
