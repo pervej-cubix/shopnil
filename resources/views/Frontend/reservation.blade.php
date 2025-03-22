@@ -88,12 +88,12 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 check_availability-field">
                     <label for="datepicker">Check in</label>
-                        <input type="date" class="form-control formField formField reservation_formField" id="checkin"
+                        <input type="date" class="form-control formField formField reservation_formField" id="checkin" value="{{$Booking['checkin'] ?? ''}}"
                         name="checkin" placeholder="Select Date" required>
                     </div>
                     <div class="col-sm-12 col-md-6 check_availability-field">
                     <label for="checkout">Check out</label>
-                        <input type="date" class="form-control formField formField reservation_formField" name="checkout"
+                        <input type="date" class="form-control formField formField reservation_formField" name="checkout" value="{{$Booking['checkin'] ?? ''}}"
                         id="checkout" placeholder="Select Date" required>
                     </div>
                 </div>
@@ -208,11 +208,17 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-12 col-sm-12">
                          <label for="requirements">Special Requirements</label>
                             <textarea style="height: 45px; font-size: 15px;" class="form-control formField" id="requirements"
                             name="requirements" rows="1" placeholder="Enter your comments"></textarea>
+                    </div>
+                    
+                    <div class="col-md-6 col-sm-12">
+                        {!! NoCaptcha::display() !!}
+                        {!! NoCaptcha::renderJs() !!}
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label for="requirements"></label>
@@ -223,6 +229,7 @@
         </div>
     </div><!-- END / CONTENT -->
 </form>
+
 </div>
 </div>
 </div>
@@ -243,62 +250,60 @@ flatpickr("#checkout", {
     minDate: new Date().fp_incr(1),
 });
 
-document.getElementById("reservationForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    const formData = {};
-    
-    const formFields = document.querySelectorAll(".formField");
-    formFields.forEach(field => {
+    document.getElementById("reservationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const formData = {};
+        
+        const formFields = document.querySelectorAll(".formField");
+        formFields.forEach(field => {
         formData[field.name] = field.value;
-    });
-    formData['adult_no'] = parseInt(formData.adult_no);
-    formData['room_no'] = parseInt(formData.room_no);
-    formData['child_no'] = parseInt(formData.child_no);
-    // parseInt(formData.child_no)
-console.log(formData,"ppppp")
+        });
+        formData['adult_no'] = parseInt(formData.adult_no);
+        formData['room_no'] = parseInt(formData.room_no);
+        formData['child_no'] = parseInt(formData.child_no);
 
-    // const recaptchaResponse = grecaptcha.getResponse();
-    // if (recaptchaResponse.length === 0) {
-    //     // If CAPTCHA is not verified
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: 'Captcha Required',
-    //         text: 'Please complete the CAPTCHA to proceed.',
-    //     });
-    //     return; // Stop the form submission
-    // }
-    fetch('/reservation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data, " fffffffffff")
-            Swal.fire({
-                icon: 'success',
-                title: 'Reservation Successful',
-                text: 'Your reservation has been submitted successfully!',
-            });
-        })
-        .catch(error => {
-            console.log('Error:', error);
-
+        const recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            // If CAPTCHA is not verified
             Swal.fire({
                 icon: 'error',
-                title: 'Submission Failed',
-                text: error.message,
+                title: 'Captcha Required',
+                text: 'Please complete the CAPTCHA to proceed.',
             });
-        });
+            return; // Stop the form submission
+        }
+        fetch('/reservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("fffffffff", data);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Reservation Successful',
+                    text: data.messages || 'Your reservation has been submitted successfully!',
+                });
+            })
+            .catch(error => {
+                console.log('Error:', error);
 
-    // document.getElementById("reservationForm").reset();
-    // grecaptcha.reset();
-})
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Submission Failed',
+                    text: error.message,
+                });
+            });
 
-document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("reservationForm").reset();
+            grecaptcha.reset();
+    })
+
+    document.addEventListener('DOMContentLoaded', function() {
     const checkin = document.getElementById('checkin');
     const checkout = document.getElementById('checkout');
     const roomtype = document.getElementById('roomtype');

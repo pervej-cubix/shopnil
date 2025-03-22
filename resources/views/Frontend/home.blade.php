@@ -4,23 +4,20 @@
 
 @section('content')
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 <style>
 .bs-slider-overlay {
-
     position: absolute;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
     height: 100%;
-
     background-color: rgba(0, 0, 0, 0.5);
     /* Black with 50% opacity */
 
@@ -425,13 +422,13 @@ $(document).ready(function() {
                                 <div class="checkin_form_box">
                                     <div class="input-group" style="display: flex; flex-direction: column;">
                                         <label for="">Check in</label>
-                                        <input type="date" class="form-control" name="checkin" style="width: 100%;">
+                                        <input type="date" placeholder="Select date" class="form-control" name="checkin" style="width: 100%;" id="checkin">
                                     </div>
                                 </div>
                                 <div class="checkin_form_box">
                                     <div class="input-group" style="display: flex; flex-direction: column;">
                                         <label for="">Check out</label>
-                                        <input type="date" class="form-control" name="checkout" style="width: 100%;">
+                                        <input type="date" placeholder="Select date" class="form-control" name="checkout" style="width: 100%;" id="checkout">
                                     </div>
                                 </div>
                                 <div class="checkin_form_box">
@@ -636,6 +633,17 @@ $(document).ready(function() {
 
 </div>
 
-
+<script>
+flatpickr("#checkin", {
+    dateFormat: "Y-m-d",
+    minuteIncrement: 1,
+    minDate: new Date(),
+});
+flatpickr("#checkout", {
+    dateFormat: "Y-m-d",
+    minuteIncrement: 2,
+    minDate: new Date().fp_incr(1),
+});    
+</script>
 
 @endsection

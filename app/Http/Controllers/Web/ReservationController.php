@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMail;
 use App\Models\MailSetting;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+
 class ReservationController extends Controller
 {
     public function reservationMail(Request $request)
@@ -42,7 +44,7 @@ class ReservationController extends Controller
 
         $dayCount = $checkinDate->diffInDays($checkoutDate);
 
-    //     $formData = $request->all();
+        //     $formData = $request->all();
 
         $data = [
             'checkin_date' => $request->checkin,
@@ -52,7 +54,7 @@ class ReservationController extends Controller
             'number_of_room' => $request->room_no ?? 1,
             'child_in' => $request->child_no,
             'country' => $request->country,
-            'title' => $request->title, -
+            'title' => $request->title,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
@@ -98,59 +100,59 @@ class ReservationController extends Controller
         
         $ch = curl_init();
 
-// Set cURL options
-curl_setopt($ch, CURLOPT_URL, $server_url);            
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        
-curl_setopt($ch, CURLOPT_POST, true);                  
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));  
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $server_url);            
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);        
+        curl_setopt($ch, CURLOPT_POST, true);                  
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));  
 
-// Set cURL options with proper header format
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'Authorization: ' . $key,  
-]);
+        // Set cURL options with proper header format
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: ' . $key,  
+        ]);
 
-    // Execute cURL request
-    $response = curl_exec($ch);
+        // Execute cURL request
+        $response = curl_exec($ch);
 
-// Check if cURL execution was successful
-if($response === false) {
-    $errorMessage = curl_error($ch);
-    curl_close($ch);  
-    return back()->with([
-        'messages' => 'cURL Error: ' . $errorMessage,
-        'status' => 'error'
-    ]);
-}
+        // Check if cURL execution was successful
+        if($response === false) {
+            $errorMessage = curl_error($ch);
+            curl_close($ch);  
+            return back()->with([
+                'messages' => 'cURL Error: ' . $errorMessage,
+                'status' => 'error'
+            ]);
+        }
 
-curl_close($ch);
+        curl_close($ch);
 
-// Decode the response
-$response = json_decode($response);
+        // Decode the response
+        $response = json_decode($response);
 
-if (json_last_error() !== JSON_ERROR_NONE) {
-    return back()->with([
-        'messages' => 'Invalid JSON response from API',
-        'status' => 'error'
-    ]);
-}
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return back()->with([
+                'messages' => 'Invalid JSON response from API',
+                'status' => 'error'
+            ]);
+        }
 
-// Check if the response contains the expected status
-if (isset($response->status) && $response->status == 'success') {
-    $errorMessage = $response;
+        // Check if the response contains the expected status
+        if (isset($response->status) && $response->status == 'success') {
+            $successMessage = $response;
 
-    return response()->json([
-        'messages' => $errorMessage->message,
-        'status' => $errorMessage->status
-    ]);
-} else {
-    $errorMessage = isset($response->fields) ? $response->fields : 'Unknown error';
-    response()->json([
-        'messages' => $errorMessage->message ?? 'Unknown error',
-        'status' => $response->status ?? 'error'
-    ]);
-    }
-           
+            return response()->json([
+                'messages' => $successMessage->message,
+                'status' => $successMessage->status,
+                'reseponse' => $successMessage
+            ]);
+        } else {
+            $errorMessage = isset($response->fields) ? $response->fields : 'Unknown error';
+            response()->json([
+                'messages' => $errorMessage->message ?? 'Unknown error',
+                'status' => $response->status ?? 'error'
+            ]);
+            } 
     }
 
     public function reservationCheck(Request $request){
