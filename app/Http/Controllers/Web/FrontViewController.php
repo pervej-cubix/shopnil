@@ -99,6 +99,7 @@ class FrontViewController extends Controller
             curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($chCurl, CURLOPT_HTTPHEADER, [
                 'Accept: application/json',
+
             ]);
         
             $settingsResponse = curl_exec($chCurl);
@@ -113,13 +114,15 @@ class FrontViewController extends Controller
             $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
             
             $key=md5($token_rules[0].date("Y-m-d"));
-        
+            $property = env("PROPERTY");
             $chCountry = curl_init();
+
             curl_setopt($chCountry, CURLOPT_URL, $countryUrl);
             curl_setopt($chCountry, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($chCountry, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
                 'Authorization: ' . $key,  
+                'Property: ' . $property
             ]);
             
             $countryResponse = curl_exec($chCountry);
@@ -138,6 +141,7 @@ class FrontViewController extends Controller
             curl_setopt($chRoomTypes, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
                 'Authorization: ' .$key, 
+                'Property: ' . $property
             ]);
             $roomTypesResponse = curl_exec($chRoomTypes);
         

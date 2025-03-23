@@ -38,7 +38,7 @@ class ReservationController extends Controller
         $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
         
         $key=md5($token_rules[0].date("Y-m-d")); 
-   
+        $property=env("PROPERTY"); 
         $checkinDate = Carbon::parse($request->input('checkin'));
         $checkoutDate = Carbon::parse($request->input('checkout'));
 
@@ -110,6 +110,7 @@ class ReservationController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Authorization: ' . $key,  
+            'Property: ' . $property
         ]);
 
         // Execute cURL request
@@ -165,6 +166,7 @@ class ReservationController extends Controller
         curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chCurl, CURLOPT_HTTPHEADER, [
             'Accept: application/json',
+
         ]);
     
         $settingsResponse = curl_exec($chCurl);
@@ -179,6 +181,7 @@ class ReservationController extends Controller
         $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
         
         $key=md5($token_rules[0].date("Y-m-d"));
+        $property = env("PROPERTY");
         
         $availabilityCheckUrl = "$apiUrl/check_availabilty";
         
@@ -200,7 +203,8 @@ class ReservationController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Accept: application/json',
-            'Authorization: ' . $key 
+            'Authorization: ' . $key ,
+            'Property: ' . $property
         ]);
 
         $availabilityCheckResponse = curl_exec($ch);
