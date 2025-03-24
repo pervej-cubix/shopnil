@@ -177,7 +177,7 @@ $galleryData = [
                             </div>
                         </div>
                         <div class="item-price">
-                            <div class="price-inner">
+                            <!-- <div class="price-inner">
                                 @php
                                 $exchangeRate = 0.0091; // Example: 1 BDT = 0.0091 USDT (Update as needed)
                                 $usdt = round($item->price * $exchangeRate, 2);
@@ -206,9 +206,17 @@ $galleryData = [
                                         <h2>Book Now</h2>
                                     </button>
                                 </li>
-                            </div>
+                            </div> -->
+                            <div class="price-inner">
+								<h3>{{$item->price}}BDT</h3>
+								<h5>Per Night</h5>
+								<li class="check" style="list-style-type: none; margin-top:20px">
+									<button name="index-reservation" class="hvr-shutter-in-horizontal" style="cursor:pointer; padding:10px"><h2>Book Now</h2></button>
+								</li>				
+								<ul>									
+								</ul>
+							</div>
                         </div>
-
                     </div>
                     <!-- .rooms-item ends -->
                 </form>
