@@ -282,7 +282,7 @@ flatpickr("#checkout", {
             })
             .then(response => response.json())
             .then(data => {
-                console.log("fffffffff", data);
+                console.log("f", data);
                 Swal.fire({
                     icon: 'success',
                     title: 'Reservation Successful',

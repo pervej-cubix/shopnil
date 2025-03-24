@@ -16,29 +16,11 @@ class ReservationController extends Controller
     public function reservationMail(Request $request)
     {
         $apiUrl = env('API_URL');
-        $settingsUrl = "$apiUrl/settings";
 
-        $chCurl = curl_init();
-        // Set cURL options
-        curl_setopt($chCurl, CURLOPT_URL, $settingsUrl);
-        curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chCurl, CURLOPT_HTTPHEADER, [
-            'Accept: application/json',
-        ]);
-    
-        $settingsResponse = curl_exec($chCurl);
-        if (curl_errno($chCurl)) {
-            echo 'cURL error: ' . curl_error($chCurl);
-            curl_close($chCurl);
-            exit;
-        }
-        
-        curl_close($chCurl);
-        $settingsData = json_decode($settingsResponse, true);
-        $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
-        
+        $auth_key =  env("AUTHORIZATION_KEY");
+        $token_rules=explode('#', base64_decode($auth_key));      
         $key=md5($token_rules[0].date("Y-m-d")); 
-        $property=env("PROPERTY"); 
+        $property_uuid=env("PROPERTY_UUID"); 
         $checkinDate = Carbon::parse($request->input('checkin'));
         $checkoutDate = Carbon::parse($request->input('checkout'));
 
@@ -110,7 +92,7 @@ class ReservationController extends Controller
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Authorization: ' . $key,  
-            'Property: ' . $property
+            'Property: ' . $property_uuid
         ]);
 
         // Execute cURL request
@@ -160,31 +142,12 @@ class ReservationController extends Controller
         $apiUrl = env('API_URL');      
         $settingsUrl = "$apiUrl/settings";
         
-        $chCurl = curl_init();
-        // Set cURL options
-        curl_setopt($chCurl, CURLOPT_URL, $settingsUrl);
-        curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($chCurl, CURLOPT_HTTPHEADER, [
-            'Accept: application/json',
-
-        ]);
-    
-        $settingsResponse = curl_exec($chCurl);
-        if (curl_errno($chCurl)) {
-            echo 'cURL error: ' . curl_error($chCurl);
-            curl_close($chCurl);
-            exit;
-        }
-        
-        curl_close($chCurl);
-        $settingsData = json_decode($settingsResponse, true);
-        $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
-        
+        $auth_key =  env("AUTHORIZATION_KEY");
+        $token_rules=explode('#', base64_decode($auth_key));      
         $key=md5($token_rules[0].date("Y-m-d"));
-        $property = env("PROPERTY");
+        $property_uuid = env("PROPERTY_UUID");
         
         $availabilityCheckUrl = "$apiUrl/check_availabilty";
-        
         $ch = curl_init($availabilityCheckUrl);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -204,9 +167,8 @@ class ReservationController extends Controller
             'Content-Type: application/json',
             'Accept: application/json',
             'Authorization: ' . $key ,
-            'Property: ' . $property
+            'Property: ' . $property_uuid
         ]);
-
         $availabilityCheckResponse = curl_exec($ch);
      
         // Check for errors 

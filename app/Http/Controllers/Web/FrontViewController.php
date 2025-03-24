@@ -87,34 +87,16 @@ class FrontViewController extends Controller
                 $data['roomName'] = $request->input('roomName');
             }
             //==== Fetch Countries, RoomType data =====
-
             $apiUrl = env('API_URL');
             $countryUrl = "$apiUrl/countrysList";
             $roomTypesUrl = "$apiUrl/roomTypes";
-            $settingsUrl = "$apiUrl/settings";
-        
-            $chCurl = curl_init();
-            // Set cURL options
-            curl_setopt($chCurl, CURLOPT_URL, $settingsUrl);
-            curl_setopt($chCurl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($chCurl, CURLOPT_HTTPHEADER, [
-                'Accept: application/json',
 
-            ]);
-        
-            $settingsResponse = curl_exec($chCurl);
-            if (curl_errno($chCurl)) {
-                echo 'cURL error: ' . curl_error($chCurl);
-                curl_close($chCurl);
-                exit;
-            }
-        
-            curl_close($chCurl);
-            $settingsData = json_decode($settingsResponse, true);
-            $token_rules=explode('#', base64_decode($settingsData['data']['rules_for_keys']));
-            
+            $auth_key =  env("AUTHORIZATION_KEY");
+            $token_rules=explode('#', base64_decode($auth_key));            
+            $property_uuid= env("PROPERTY_UUID");
             $key=md5($token_rules[0].date("Y-m-d"));
-            $property = env("PROPERTY");
+
+            $property = env("PROPERTY_UUID");
             $chCountry = curl_init();
 
             curl_setopt($chCountry, CURLOPT_URL, $countryUrl);
