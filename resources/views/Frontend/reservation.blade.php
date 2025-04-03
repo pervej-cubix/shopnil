@@ -21,8 +21,15 @@
     
 <div class="reservation_content">
    
-    <form id="reservationForm"> 
+    <form action="{{route('send-mail')}}" method="POST" >
+
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
         @csrf()
+
         <div class="col-md-12">
             <div class="reservation-detail">
                 <h3>Personal Details</h3>
@@ -33,13 +40,13 @@
                                 class="form-control formField"
                                 style="font-size: 15px; padding: auto 5px;">
                                 <option value=""> Select </option>
-                                <option value="1">MR.</option>
-                                <option value="2">MRS.</option>
-                                <option value="3">MS.</option>
-                                <option value="4">MR. &amp; MRS.</option>
-                                <option value="5">DR.</option>
-                                <option value="6">NOT APPLICABLE</option>
-                                <option value="7">MR. MRS.</option>
+                                <option value="MR.">MR.</option>
+                                <option value="MRS.">MRS.</option>
+                                <option value="MS.">MS.</option>
+                                <option value="MR. & MRS.">MR. &amp; MRS.</option>
+                                <option value="DR.">DR.</option>
+                                <option value="NOT APPLICABLE">NOT APPLICABLE</option>
+                                <option value="MR. MRS.">MR. MRS.</option>
                             </select>
                     </div>
                     <div class="col-sm-5 col-md-5">
@@ -56,21 +63,13 @@
                         <label>Address</label> 
                         <input class="form-control formField" placeholder=""  type="text" name="address" required="">
                     </div>
-          
                     <div class="col-sm-6">
-                    <label for="country">Country</label>
-                        <select class="form-control formField" name="country" data-input-type="select" id="fo_res_country"
+                        <label for="country">Country</label>
+                        <select class="form-control formField" name="country" data-input-type="select" id="fo_res_country">
 
-                            @foreach($countries as $country)
-                                <option value="{{ $country['id'] }}" @if($country['en_short_name']==='Bangladesh' )
-                                    selected @endif>
-                                    {{ $country['en_short_name'] }}
-                                </option>
-                            @endforeach
-                        </select>
+                        </select>                        
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-sm-6">
                         <label>Email Address</label> <input class="form-control formField" type="email" name="email" required="">
@@ -100,17 +99,13 @@
 
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <label>Room Type</label>
-                        
-                        <select name="roomtype" class="form-control formField" id="roomtype" required>
-                        <option value=""> Select </option>
-                        @foreach($roomTypes as $roomType)
-                        <option value="{{ $roomType['roomid'] }}">{{ $roomType['roomtype'] }}</option>
-                        @endforeach
+                        <label>Room Type</label>                        
+                        <select name="room_type" class="form-control formField" id="roomtype" required>
                         </select>
                     </div>
                     <div class="col-md-6  col-sm-12">
-                        <label>Number of Room</label> <select aria-required="true" class="form-control formField" name="room_no" required ="">
+                        <label>Number of Room</label>
+                         <select aria-required="true" class="form-control formField" name="room_no" required ="">
                             <option value="">
                                 Select Number of Room </option>
                             <option value="1">
@@ -173,11 +168,10 @@
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label>Number of Children</label> 
-                        <select aria-required="true" class="form-control formField" name="child_no"  required="">
+                        <select aria-required="true" class="form-control formField" name="child_no">
                             <option value="{{$Booking['adult'] ?? ''}}">
                                 {{$Booking['adult'] ?? 'Select Number of Children'}} 
                             </option>
-
                             <option value="1">
                                 1
                             </option>
@@ -208,7 +202,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                          <label for="requirements">Special Requirements</label>
@@ -216,10 +209,10 @@
                             name="requirements" rows="1" placeholder="Enter your comments"></textarea>
                     </div>
                     
-                    <div class="col-md-6 col-sm-12">
+                    {{-- <div class="col-md-6 col-sm-12">
                         {!! NoCaptcha::display() !!}
                         {!! NoCaptcha::renderJs() !!}
-                    </div>
+                    </div> --}}
                     <div class="col-md-6 col-sm-12">
                         <label for="requirements"></label>
                         <button style="display: block;" type="submit" class="btn btn-default book-now hvr-shutter-in-horizontal fs-16">Book Now</button>
@@ -227,9 +220,8 @@
                 </div>
             </div>
         </div>
-    </div><!-- END / CONTENT -->
-</form>
-
+        </div><!-- END / CONTENT -->
+    </form>
 </div>
 </div>
 </div>
@@ -239,123 +231,72 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-flatpickr("#checkin", {
-    dateFormat: "Y-m-d",
-    minuteIncrement: 1,
-    minDate: new Date(),
-});
-flatpickr("#checkout", {
-    dateFormat: "Y-m-d",
-    minuteIncrement: 2,
-    minDate: new Date().fp_incr(1),
-});
+    flatpickr("#checkin", {
+        dateFormat: "Y-m-d",
+        minuteIncrement: 1,
+        minDate: new Date(),
+    });
+    flatpickr("#checkout", {
+        dateFormat: "Y-m-d",
+        minuteIncrement: 2,
+        minDate: new Date().fp_incr(1),
+    });
+    
+    //   ========= api call ==========
+    const apiUrl = "http://localhost/pms-ci-develop/api";
+    const countryUrl = `${apiUrl}/countrysList`;
+    const roomTypesUrl = `${apiUrl}/roomTypes`;
 
-    document.getElementById("reservationForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const formData = {};
-        
-        const formFields = document.querySelectorAll(".formField");
-        formFields.forEach(field => {
-        formData[field.name] = field.value;
+    window.addEventListener('DOMContentLoaded', () => {
+        Promise.all([
+            fetch(countryUrl).then(res => res.json()),
+            fetch(roomTypesUrl).then(res => res.json())
+        ])
+        .then(([countryData, roomTypeData]) => {
+            // Example: populate dropdowns
+            populateCountries(countryData);
+            populateRoomTypes(roomTypeData);
+        })
+        .catch(err => {
+            console.error("❌ Error loading data:", err);
         });
-        formData['adult_no'] = parseInt(formData.adult_no);
-        formData['room_no'] = parseInt(formData.room_no);
-        formData['child_no'] = parseInt(formData.child_no);
-
-        const recaptchaResponse = grecaptcha.getResponse();
-        if (recaptchaResponse.length === 0) {
-            // If CAPTCHA is not verified
-            Swal.fire({
-                icon: 'error',
-                title: 'Captcha Required',
-                text: 'Please complete the CAPTCHA to proceed.',
-            });
-            return; // Stop the form submission
-        }
-        fetch('/reservation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("f", data);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Reservation Successful',
-                    text: data.messages || 'Your reservation has been submitted successfully!',
-                });
-            })
-            .catch(error => {
-                console.log('Error:', error);
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Submission Failed',
-                    text: error.message,
-                });
-            });
-
-            document.getElementById("reservationForm").reset();
-            grecaptcha.reset();
-    })
-
-    document.addEventListener('DOMContentLoaded', function() {
-    const checkin = document.getElementById('checkin');
-    const checkout = document.getElementById('checkout');
-    const roomtype = document.getElementById('roomtype');
-
-    function availabilityCheck() {
-        const bodyData = {
-            checkin: checkin.value,
-            checkout: checkout.value,
-            roomtype: roomtype.value
-        };
-
-        console.log(bodyData);
-
-        // Make sure all values are filled before sending the request
-        if (bodyData.checkin && bodyData.checkout && bodyData.roomtype) {
-            fetch("{{ url('/reservation-check') }}", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify(bodyData)
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status == "success") {
-                        console.log(data);
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Not Available',
-                            text: data.message
-                        });
-                    }
-                })
-                .catch(err => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Not Available',
-                        text: "Error checking availability"
-                    });
-                    console.log(err);
-                });
-        }
-    }
-
-    // Attach onchange listeners
-    [checkin, checkout, roomtype].forEach(input => {
-        input.addEventListener('change', availabilityCheck);
     });
 
-});
-</script>
+    function populateCountries(data) {
+    // Empty the select element
+    $("#fo_res_country").empty();
+
+    let option = '<option value="">Select Country</option>'; // Default placeholder option
+
+    data.data.forEach(function(item) {
+        // Check if the country is Bangladesh and set the selected attribute
+        if(item.id === "19") {
+            option += '<option value="' + item.id + '" selected>' + item.en_short_name + '</option>';
+        } else {
+            option += '<option value="' + item.id + '">' + item.en_short_name + '</option>';
+        }
+    });
+
+
+    // Add the options to the select element
+    $("#fo_res_country").html(option);
+    }
+
+    function populateRoomTypes(data) {
+        // Empty the select element
+        $("#roomtype").empty();
+
+        // Create the default "Select" option
+        var option = '<option value="">Select</option>';
+
+        // Loop through the countries data and add each option to the dropdown
+        data.data.forEach(function(item) {
+            option += '<option value="' + item.roomid + '">' + item.roomtype + '</option>';
+        });
+
+        // Add the options to the select element
+        $("#roomtype").html(option);
+    }
+</script> 
 
 @endsection

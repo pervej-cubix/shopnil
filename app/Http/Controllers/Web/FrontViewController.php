@@ -97,59 +97,58 @@ class FrontViewController extends Controller
             $key=md5($token_rules[0].date("Y-m-d"));
 
             $property = env("PROPERTY_UUID");
-            $chCountry = curl_init();
+            // $chCountry = curl_init();
 
-            curl_setopt($chCountry, CURLOPT_URL, $countryUrl);
-            curl_setopt($chCountry, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($chCountry, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Authorization: ' . $key,  
-                'Property: ' . $property
-            ]);
+            // curl_setopt($chCountry, CURLOPT_URL, $countryUrl);
+            // curl_setopt($chCountry, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($chCountry, CURLOPT_HTTPHEADER, [
+            //     'Content-Type: application/json',
+            //     'Authorization: ' . $key,  
+            //     'Property: ' . $property
+            // ]);
             
-            $countryResponse = curl_exec($chCountry);
+            // $countryResponse = curl_exec($chCountry);
         
-            if(curl_errno($chCountry)) {
-                // Handle the error (for example, log the error)
-                curl_close($chCountry);
-                return view('web.pages.bookNow')->with('error', 'Error fetching countries: ' . curl_error($chCountry));
-            }
-            curl_close($chCountry);
+            // if(curl_errno($chCountry)) {
+            //     // Handle the error (for example, log the error)
+            //     curl_close($chCountry);
+            //     return view('web.pages.bookNow')->with('error', 'Error fetching countries: ' . curl_error($chCountry));
+            // }
+            // curl_close($chCountry);
         
-            $chRoomTypes = curl_init();
+            // $chRoomTypes = curl_init();
             
-            curl_setopt($chRoomTypes, CURLOPT_URL, $roomTypesUrl);
-            curl_setopt($chRoomTypes, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($chRoomTypes, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Authorization: ' .$key, 
-                'Property: ' . $property
-            ]);
-            $roomTypesResponse = curl_exec($chRoomTypes);
+            // curl_setopt($chRoomTypes, CURLOPT_URL, $roomTypesUrl);
+            // curl_setopt($chRoomTypes, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($chRoomTypes, CURLOPT_HTTPHEADER, [
+            //     'Content-Type: application/json',
+            //     'Authorization: ' .$key, 
+            //     'Property: ' . $property
+            // ]);
+            // $roomTypesResponse = curl_exec($chRoomTypes);
         
             // Handle cURL errors for room types request
-            if(curl_errno($chRoomTypes)) {
-                // Handle the error (for example, log the error)
-                curl_close($chRoomTypes);
-                return view('web.pages.bookNow')->with('error', 'Error fetching room types: ' . curl_error($chRoomTypes));
-            }
-            curl_close($chRoomTypes);
+            // if(curl_errno($chRoomTypes)) {
+            //     // Handle the error (for example, log the error)
+            //     curl_close($chRoomTypes);
+            //     return view('web.pages.bookNow')->with('error', 'Error fetching room types: ' . curl_error($chRoomTypes));
+            // }
+            // curl_close($chRoomTypes);
         
             // Decode the JSON responses to arrays
-            $countries = json_decode($countryResponse, true);
-            $roomTypes = json_decode($roomTypesResponse, true);
-            $countrylist= $countries['data'];
-            $roomType= $roomTypes['data'];
+            // $countries = json_decode($countryResponse, true);
+            // $roomTypes = json_decode($roomTypesResponse, true);
+            // $countrylist= $countries['data'];
+            // $roomType= $roomTypes['data'];
 
             // Now, you can use $data to pass it to the view or save it to the database, etc.
             return view('Frontend.reservation', [
                 'Banner' => $banner,
                 'Booking' => $data,
-                'roomTypes' => $roomType, 
-                'countries' => $countrylist
+                'roomTypes' => [], 
+                'countries' => []
             ]);
         }
-
 
     public function specialOffer()
     {

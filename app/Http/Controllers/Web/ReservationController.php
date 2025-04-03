@@ -10,10 +10,51 @@ use App\Mail\ContactMail;
 use App\Models\MailSetting;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Models\ReservationDetails;
 
 class ReservationController extends Controller
 {
     public function reservationMail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => ['required', 'in:MR.,MRS.,MS.,MR. & MRS.,DR.,NOT APPLICABLE'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:500'],
+            'country' => ['required', 'string', 'max:500'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'numeric', 'digits_between:6,15'], 
+            'checkin' => ['required', 'date', 'after_or_equal:today'], 
+            'checkout' => ['required', 'date', 'after:checkin'],
+            'room_type' => ['required', 'string', 'max:500'],
+            'room_no' => ['required', 'integer', 'min:1'], 
+            'adult_no' => ['required', 'integer', 'min:1'], 
+            'child_no' => ['nullable', 'integer', 'min:0'], 
+            'requirements' => ['nullable', 'string', 'max:1000'], 
+        ]);        
+
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422); // Unprocessable Entity status code
+        }
+
+        // Retrieve validated data
+        $data = $request->all();
+
+        $reservationDetail = ReservationDetails::create($data);
+
+        $toMail = MailSetting::first()->mail_to;
+        
+        // Send the email
+        Mail::to("mdpervejhossain0@gmail.com")
+            ->send(new ReservationMail($data));
+
+        return redirect()->back()->with('message','Reservation booking success');
+    }
+
+    public function reservationApi(Request $request)
     {
         $apiUrl = env('API_URL');
 
